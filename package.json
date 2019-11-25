@@ -1,6 +1,6 @@
 {
   "name": "part-control-server",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "A information management system for industrial parts and documentation",
   "main": "index.js",
   "scripts": {
@@ -20,5 +20,6 @@
   "bugs": {
     "url": "https://github.com/tbarnhill/partControl/issues"
   },
-  "homepage": "https://github.com/tbarnhill/partControl#readme"
+  "homepage": "https://github.com/tbarnhill/partControl#readme",
+  "dependencies": {}
 }
