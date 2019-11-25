@@ -1,0 +1,24 @@
+{
+  "name": "part-control-server",
+  "version": "1.0.0",
+  "description": "A information management system for industrial parts and documentation",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tbarnhill/partControl.git"
+  },
+  "keywords": [
+    "industrial",
+    "engineering",
+    "database"
+  ],
+  "author": "Tyler Barnhill",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tbarnhill/partControl/issues"
+  },
+  "homepage": "https://github.com/tbarnhill/partControl#readme"
+}
