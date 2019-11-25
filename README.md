@@ -1,2 +1,2 @@
 # partControl
-A information management system for industrial parts and documentation 
+A information management system for industrial parts and their documentation 
