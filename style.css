@@ -1,0 +1,416 @@
+body{
+    position: absolute;
+    top:0; 
+	right: 0; 
+	bottom: 0; 
+    left: 0;
+    display: grid;
+    grid-template-columns: 4rem 2fr .75fr;
+    grid-template-rows: 2fr 1fr;
+    grid-template-areas:    "L    M1   R" 
+                            "L    M2   R";
+    background:rgba(0,0,0,0.8);
+    font-family: Lucida Console;
+    text-align: center;
+    font-size: .85rem;
+}
+
+/*Nav Bar*/
+#navBar{
+    display: grid;
+    grid-area: L;
+    grid-template-rows: 4.75rem 4.75rem 4.75rem 4.75rem;
+    grid-auto-columns: 1fr;
+    grid-row-gap: 1ch;
+    user-select: none;
+    border-right-style: solid;
+    border-color: #cecece;
+    border-width: .05rem;
+    padding: .15rem;
+}
+.navBarItem{
+    background: white;
+    padding: .15 rem;
+    border-style: solid;
+    border-width: .05rem;
+    border-radius: .25rem;
+    display: grid;
+    grid-template-rows: 4fr 1fr;
+    grid-auto-columns: 1fr;
+}
+.navBarItem:hover{
+    background: #2f45ed;
+}
+
+/*Bom Table*/
+#bomTable{
+    display: none;
+    grid-area: M1;
+    grid-template-columns: 1fr;
+    grid-template-rows: min-content min-content auto min-content;
+    overflow-y: hidden;
+ 
+}
+#bomTableHeader{
+    overflow-y: scroll;
+}
+.bomTableRow{
+    display: grid;
+    grid-template-columns: .25fr 1fr .25fr 3fr .25fr .25fr .25fr .25fr .5fr 1rem;
+    user-select: none;
+    color: #e0e0e0;
+    padding: .05rem;
+    justify-items: center;
+    align-items: start;
+}
+.bomTableRow > input{
+    background: inherit;
+    font-family: inherit;
+    color: inherit;
+    border: 0;
+    max-width: 100%;
+}
+.bomTableRow >div{
+    max-width: 100%;
+    overflow-wrap: break-word;
+}
+.bomTableRow:not(#bomTableHeading):hover{
+    font-size: .9rem;
+    color:white;
+}
+
+/*Part Table*/
+#partTable{
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: min-content 3rem auto min-content;
+    overflow-y: hidden;
+    grid-row-start: M1;
+    grid-row-end: M2;
+    grid-column-start: M1;
+    grid-column-end: R;  
+}
+#partTableHeader{
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: min-content auto;
+    overflow-y: scroll;
+
+}
+#partTableFooter{
+    padding: .5rem;
+    background: #555;
+    overflow-y: hidden;
+}
+.partTableRow{
+    display: grid;
+    grid-template-columns: 1fr 2fr .5fr .5fr .5fr .5fr 1rem;
+    grid-template-rows: 1fr;
+    user-select: none;
+    color: #e0e0e0;
+    padding: .05rem;
+
+}
+.partTableRow:not(#partTableHeading):hover{
+    font-size: .9rem;
+    color:white;
+}
+
+/* Scroll Bar */
+::-webkit-scrollbar {
+    width: 15px;
+}
+::-webkit-scrollbar-thumb {
+    background: #888; 
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+}
+
+/* All Elements */
+* {
+    margin:0;
+    padding:0;
+    min-width: 0;
+    min-height: 0;
+    text-align: center;
+    
+}
+*:focus{
+    outline: none;
+}
+
+/* Buttons */
+button{
+    user-select: none;
+    color: #e0e0e0;
+    background: #555;
+    border:0;
+    width: 100%;
+    height:100%;
+}
+button:hover{
+    color: #506e91;
+}
+button:disabled{
+    color: #555;
+}
+
+
+/* Part Slide Out Bar */
+#partSlideOutBar{
+    grid-area:  R;
+    background:white;
+    display: none;
+
+    grid-template-columns: 1fr;
+    grid-template-rows: min-content min-content auto 6rem 3rem 3rem min-content ;
+    overflow-y: hidden;
+    border-left-style: solid;
+    border-color: #cecece;
+    border-width: .05rem;
+
+}
+#slideOutCertifications{
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: min-content min-content 4fr;
+    
+}
+#certificationsBody,#certificationsHeader{
+    overflow-y: scroll;
+}
+#slideOutFormRev{
+    display: grid;
+    grid-template-rows: min-content auto;
+    grid-template-columns: 3fr 1fr;
+    border-bottom-style: solid;
+    border-color: #cecece;
+    border-width: .05rem;
+}
+
+.certRow{
+    display: grid;
+    grid-column-start: span 3;
+    grid-template-rows: 1fr;
+    grid-template-columns: 4fr 1fr;
+    padding: 0.15rem;
+}
+#slideOutForm{
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows:1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    padding: .5rem;
+}
+.slideOutFormInput{
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: min-content auto;
+    border-bottom-style: solid;
+    border-color: #cecece;
+    border-width: .05rem;
+}
+.slideOutFormInput > input, .slideOutFormInput >select, #slideOutFormRev>input{
+    border-style: none;
+    text-align: left;
+}
+.slideOutFormInput >select:disabled{
+    background-color: rgb(235, 235, 228);
+}
+.slideOutFormInput > div, #slideOutFormRev>div{
+    border-style: none;
+    text-align: left;
+    color: #516f90;
+    font-size: .65rem;
+    user-select: none;
+}
+#slideOutDropZone{
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: min-content min-content auto min-content;
+    grid-row-gap: .25rem;
+    padding: .5rem;
+}
+#slideOutOpenDrawing{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr;
+    padding: .5rem;
+    background: #555;
+}
+#dropZone{
+    background: #506e91; 
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 3fr 1fr 3fr; 
+}
+#buildPackProgressBar{
+    background-color: #17c11a;
+    width: 0%;
+    height: 100%;
+    z-index: 5;
+    display: none;
+
+}
+.buildPackContainer{
+    padding: .5rem;
+    display: grid;
+    grid-template-rows: 4fr 1fr ;
+    grid-template-columns: 1fr;
+  
+}
+.slideOutButtonContainer{
+    padding: .5rem;
+    display: grid;
+    grid-template-rows: 1fr;
+    grid-template-columns: 1fr;
+}
+.slideOutFormButtons{
+    display: grid;
+    grid-template-rows: 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr .5fr;
+}
+.titleBar{
+    display: grid;
+    grid-template-columns: auto min-content;
+    grid-template-rows: 1fr;
+    background: #555;
+    padding:.15rem;
+}
+.bomTitleBar{
+    display: grid;
+    grid-template-columns: 1rem  auto 1rem 1rem;
+    grid-template-rows: 1fr;
+    background: #555;
+    padding:.15rem;
+}
+.titleBarButton{
+    background: white;
+    padding: .15 rem;
+    border-style: solid;
+    border-width: .05rem;
+    border-radius: .25rem;
+    color: black;
+    font-family: Lucida Console;
+}
+.titleBarButton:hover{
+    background: #2f45ed;
+    color: black;
+}
+img{
+    height: 100%;
+    width: 100%;
+}
+.changed{
+    color:red;
+    font-weight: bold;
+    font-family:  "Helvetica";
+}
+.tableBody{
+    overflow-y: scroll;
+}
+
+.pane{
+    display: none;
+    grid-row-start: M1;
+    grid-row-end: M2;
+    grid-column-start: M1;
+    grid-column-end: R;  
+}
+
+.scopeTableRow{
+    display: grid;
+    grid-template-columns: 2fr 4fr 1rem;
+    grid-auto-rows: 1fr;
+    overflow-y: scroll;
+    user-select: none;
+    color: #e0e0e0;
+    padding: .05rem;
+
+   
+}
+#scopePane{
+    display: none;
+    grid-template-columns: 1fr;
+    grid-auto-rows: min-content 3rem auto;
+}
+#scopeTableHeader{
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: min-content auto;
+    overflow-y: scroll;
+
+}
+#scopeTableBody{
+    overflow-y: scroll;
+}
+.scopeTableRow:not(#scopeTableHeading):hover{
+    font-size: .9rem;
+    color:white;
+}
+.rowButton{
+    background: #e0e0e0;
+    border-radius: .25rem;
+    color: black;
+    height: 100%;
+    width: 100%;
+}
+
+#settingsPane{
+    grid-area:  R;
+    background:white;
+    display: none;
+    grid-template-columns: 1fr;
+    grid-template-rows: min-content min-content auto 6rem 3rem 3rem min-content ;
+    overflow-y: hidden;
+    border-left-style: solid;
+    border-color: #cecece;
+    border-width: .05rem;
+}
+#loadScreen{
+    z-index: 2;
+    background: #555;
+    grid-row-start: L;
+    grid-row-end: M2;
+    grid-column-start: L;
+    grid-column-end: R;  
+    color: white;
+}
+
+#promptBox{
+    display: none;
+    z-index: 2;
+    grid-row-start: L;
+    grid-row-end: M2;
+    grid-column-start: L;
+    grid-column-end: R;  
+
+    color: white;
+    margin: 15%;
+    
+    grid-template-columns: 1fr 1fr min-content;
+    grid-template-rows: min-content auto;
+    grid-template-areas:    "T    T    X" 
+                            "B    B    B";
+}
+#prompBoxClose{
+    grid-area: X;
+}
+#prompBoxTitleBar{
+    grid-area: T;
+    background: rgba(0,0,0,0.8);
+}
+#prompBoxBody{
+    grid-area: B;
+    background-color: white;
+    color:black;
+    overflow-y: scroll;
+    text-align:  left;
+}
+
+.noteIcon{
+    background: #888;
+}
+.noteIcon:hover{
+    background: #2f45ed;
+}

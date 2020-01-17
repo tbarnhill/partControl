@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Part Control</title>
+  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" media="screen" href="style.css" />
+
+  <!-- Currently some angular code still exists. However it is intended to be converted all to vue-->
+  <script src="angular-1.7.6/angular.min.js"></script>
+  <script src="vue.js"></script> 
+  
+</head>
+<body id = "body" ng-app="angularModule" ng-controller='angularController' ng-mousemove="mouseMove()">
+
+                <button id='loadScreen'>Loading</button>
+                <div id='navBar'>
+                        <div class='navBarItem' ng-click="navBarHomeOnClick()">
+                                <div><img src='icons\home.png' alt='Home'></div>
+                                <div>Home</div>
+                        </div>
+                        <div class='navBarItem' ng-click="navBarScopeOnClick()">
+                                <div><img src='icons\scopes.png' alt='Scopes'></div>
+                                <div>Scopes</div>
+                        </div>
+
+                        
+                        <div class='navBarItem' ng-click="navBarSettingsOnClick()">
+                                <div><img src='icons\settings.png' alt='Settings'></div>
+                                <div></div>
+                        </div>
+                       <!-- <div class='navBarItem' ng-click="navBarHelpOnClick()">
+                                        <div><img src='icons\help.png' alt='Help'></div>
+                                        <div>Help</div>
+                        </div>     -->  
+                </div>
+
+                <div id='bomTable'>
+                                <div class='bomTitleBar'>
+                                        <button ng-click="activeBomBack()" ng-disabled="activeBomIdHistory.length<2"><<</button>
+                                        
+                                        
+                                        <button ng-click="rowOnClick(activeBom)">
+                                                {{activeBom.partNumber+' '+activeBom.description}}
+                                        </button>
+                                        <div class='navBarItem' ng-click="refreshBomButtonOnClick()"><img src='icons\refresh.png' alt='Refresh'></div>
+                                        <button ng-click="closeBomTableButtonOnClick()">X</button>
+                                </div>
+
+
+                                <div id='bomTableHeader'>
+                                        <div class ='bomTableRow' id='bomTableHeading'>
+                                                <p>Item</p>
+                                                <p>Part Number</p>
+                                                <p>Rev</p>
+                                                <p>Description</p>
+                                                <p>Qty</p>
+                                                <p>Core</p>
+                                                <p>RL</p>
+                                                <p>Pack</p>
+                                                
+                                        </div>
+                                </div>
+                                                
+                                <div id='bomTableBody' class='tableBody'>
+                                        <div class='bomTableRow' ng-click="rowOnClick(activeBom.bomParts[$index])" ng-repeat="x in activeBom.bomParts track by $index  ">
+                                                <!--Item-->             <input ng-blur='itemOnChange(activeBom.bom[$index],activeBom.bom[$index].item)'ng-model='activeBom.bom[$index].item'>
+                                                <!--Part Number-->      <div>{{activeBom.bomParts[$index].partNumber}}</div>
+                                                <!--REV-->              <input ng-blur='revOnChange(activeBom.bom[$index])' ng-model='activeBom.bom[$index].rev'>
+                                                <!--Description-->      <div>{{activeBom.bomParts[$index].description}}</div>
+                                                <!--Quantity-->         <input ng-blur='qtyOnChange(activeBom.bom[$index])' ng-model='activeBom.bom[$index].qty'>
+                                                <!--Core Included-->    <input type='checkbox' ng-checked='activeBom.bom[$index].coreIncluded' ng-click="coreIncludedCheckBoxOnChange(activeBom.bom[$index])"  ng-disabled="!activeBom.bomParts[$index].file.core.exists">
+                                                <!--Redline Included--> <input type='checkbox' ng-checked='activeBom.bom[$index].redlineIncluded' ng-click="redlineIncludedCheckBoxOnChange(activeBom.bom[$index])" ng-disabled="!activeBom.bomParts[$index].file.redline.exists">
+                                                <!--Pack Included-->    <input type='checkbox' ng-checked='activeBom.bom[$index].packIncluded' ng-click="packIncludedCheckBoxOnChange(activeBom.bom[$index])"  ng-disabled="!activeBom.bomParts[$index].file.pack.exists" ng-hide="activeBom.bomParts[$index].type !== 'SUB' && activeBom.bomParts[$index].type !== 'ASSY' "> 
+                                                <!--Change Flag-->      <div ng-hide="activeBom.bomParts[$index].type == 'SUB' || activeBom.bomParts[$index].type == 'ASSY'"></div>
+                                                <!--Change Flag-->      <div ng-click='changedOnClick(activeBom.bomParts[$index],activeBom.bom[$index])' class='changed'>{{activeBom.bom[$index].rev!==activeBom.bomParts[$index].rev ? 'CORE':'' }} {{activeBom.bom[$index].redlineRev!==activeBom.bomParts[$index].redlineRev ? 'RL':'' }}  {{activeBom.bom[$index].packRev!==activeBom.bomParts[$index].packRev ? 'PACK' :''}}</div>
+                                                <!--Delete Button-->    <button class='rowButton' ng-click='deleteBomRecordButtonOnClick(activeBom.bom[$index].id)'>X</button>
+                                        </div>
+                                </div>
+                                
+                           
+                        
+                </div>
+
+                <div id='partTable'>
+                                        <div class='titleBar'>
+                                                <div></div>
+                                                <div>:</div>
+                                        </div>
+                
+                                        <div id='partTableHeader'>
+
+                                                <div id='partTableHeading' class='partTableRow'>
+                                                        <p>Part Number</p>
+                                                        <p>Description</p>
+                                                        <p>Scope</p>
+                                                        <p>Type</p>
+                                                        <p>Status</p>
+                                                
+                                                </div>
+
+                                                <div class='partTableRow'>
+
+                                                        <input type='text' value='' id='partNumberSearch'   v-model='partSearch.partNumber'>
+                                                        <input type='text' value='' id='descriptionSearch'  v-model='partSearch.description'>
+                                                
+                                                        <select id='schemeSearch'   v-model='partSearch.scheme'>
+                                                                <option value=""></option>
+                                                                <option v-for="scheme in schemes.schemes" v-bind="scheme" >
+                                                                        {{scheme.displayAs}}
+                                                                </option>
+                                                        </select>
+
+                                                        <select id='typeSearch'     v-model='partSearch.type'>
+                                                                <option value=""></option>
+                                                                <option value="ASSY">Assembly</option>
+                                                                <option value="SUB">Sub-Assembly</option>
+                                                                <option value="COMM">Commercial</option>
+                                                                <option value="FAB">Fabricate</option>
+                                                                <option value="DOC">Reference Document</option>
+                                                        </select>
+                                                        <select id='statusSearch'     v-model='partSearch.status'>
+                                                                <option value=""></option>
+                                                                <option value="Inactive">Inactive</option>
+                                                                <option value="In Process">In Process</option>
+                                                                <option value="Released">Released</option>       
+                                                        </select>
+
+                                                        <button v-on:click="onSearch">Search</button>
+                                                
+                                                </div>
+
+                                        </div>
+
+                                        <div class='tableBody'>
+
+                                                <div class='partTableRow' v-on:click="onRowClick(part)" v-for="part in partList.list" >
+                                                        <div>{{part.partNumber}}</div>
+                                                        <div>{{part.description}}</div>
+                                                        <div>{{part.scheme}}</div>
+                                                        <div>{{part.type}}</div>
+                                                        <div>{{part.status}}</div>
+                                                        <div class='changed'>{{part.changed ? 'CHANGED':''}}</div>
+                                                        <button class='rowButton' v-on:click="onAddToBom(part)" v-if="panes.bomOpen">+</button>
+                                                </div>
+
+                                        </div>
+
+                                        <div id='partTableFooter'>
+                                                <button  ng-click="partMasterButtonOnClick()">Part Master</button>
+                                        </div>
+
+                </div>
+
+                <div id='partSlideOutBar'>
+
+                        <div id='slideOutHeader' class='titleBar'>
+                                <div></div>
+                                <button ng-click="closeSideBarButtonOnClick()" class='button'>X</button>
+                        </div>
+
+                        <div id='slideOutForm'>
+                          
+                                 <!-- Scope-->
+                                <div class='slideOutFormInput'>
+                                        <div>Scope</div>
+                                        <select ng-model="slideOutPart.scheme" ng-disabled="slideOutPart.id!=='000'">
+                                                <option value=""></option>
+                                                <option ng-repeat="x in schemes track by $index"  value={{schemes[$index].scheme}}>{{schemes[$index].displayAs}}</option>
+                                        </select>
+                                </div>
+                                <!-- Part Number-->
+                                <div class='slideOutFormInput'>
+                                        <div>Part Number</div>
+                                        <input ng-model="slideOutPart.partNumber" ng-blur='partNumberOnChange()' type='text' ng-disabled="slideOutPart.scheme==''">
+                                </div>
+                                 <!-- Rev-->
+                                 <div class='slideOutFormInput'>
+                                                <div>Rev</div>
+                                                <input ng-model="slideOutPart.rev" type='text' ng-disabled="slideOutPart.scheme=='' ">
+                                </div>
+                                 <!-- Description-->
+                                <div class='slideOutFormInput'>
+                                        <div>Description</div>
+                                        <input ng-model="slideOutPart.description" type='text' ng-disabled="slideOutPart.scheme==''">
+                                </div>
+                                 <!-- Type-->
+                                <div class='slideOutFormInput'>
+                                        <div>Type</div>
+                                        <select ng-model="slideOutPart.type" ng-disabled="slideOutPart.scheme==''">
+                                                <option value=""></option>
+                                                <option value="ASSY">Assembly</option>
+                                                <option value="SUB">Sub-Assembly</option>
+                                                <option value="COMM">Commercial</option>
+                                                <option value="FAB">Fabricate</option>
+                                                <option value="DOC">Reference Document</option>
+                                        </select>
+                                </div>
+                                 <!-- Status-->
+                                <div class='slideOutFormInput'>
+                                        <div>Status</div>
+                                        <select ng-model="slideOutPart.status" ng-disabled="slideOutPart.scheme==''">
+                                                <option value=""></option>
+                                                <option value="Inactive">Inactive</option>
+                                                <option value="In Process">In Process</option>
+                                                <option value="Released">Released</option>
+                                        </select>
+                                </div>
+                                  <!-- Owner-->
+                                  <div class='slideOutFormInput'>
+                                        <div>Owner</div>
+                                        <input ng-model="slideOutPart.owner" type='text' ng-disabled="slideOutPart.scheme==''">
+                                </div>
+                                <!-- Save / Auto Number / New Buttons-->               
+                                <div class='slideOutFormButtons'>
+                                        <button ng-click='slideOutSaveOnClick()'        ng-disabled=" slideOutPart.scheme=='' || slideOutPart.partNumber=='' ">Save</button>
+                                        <button ng-click='slideOutAutoNumberOnClick()'  ng-disabled=" slideOutPart.partNumber!=='' || slideOutPart.scheme!=='FMH' ">Auto #</button>
+                                        <button ng-click='slideOutNewOnClick()'>New</button>
+                                        <button ng-click='slideOutDeleteOnClick()'>Delete</button>
+                                        <img class='noteIcon' src='icons\notes.png' ng-click='slideOutNotesButtonOnClick()' alt='Notes'> 
+                                     
+                                </div>
+                                
+                        </div>
+
+                        <div id='slideOutDropZone'>
+                                <div>Attach</div>
+                                <select id='dropDrawingType'>
+                                        <option value="core">Core</option>
+                                        <option value="redline">Redline</option>
+                                </select>
+                                <div id='dropZone'>
+                                        <div></div>
+                                        <div>DROP HERE</div>
+                                        <div></div>
+                                </div>
+                                <div id='footer'></div>
+                        </div>
+
+                        <div id='slideOutCertifications'>
+                                <div id='slideOutCertificationsTitle'>Certifications</div>
+                                <div id="certificationsHeader" class='certRow'>
+                                        
+                                        <select id ='certificationSelect'>
+                                        <option value=""></option>
+                                        <option ng-repeat="x in certifications track by $index"  value={{certifications[$index].id}}>{{certifications[$index].name}}</option>
+                                        </select>
+                                        <button class='rowButton' ng-click='addCertOnClick()'>+</button>
+                                </div>
+                                <div id="certificationsBody">
+                                        <div class='certRow' ng-repeat="x in slideOutPart.certs track by $index">
+                                                {{slideOutPart.certs[$index].certification}}
+                                                <button class='rowButton' ng-click='deleteCertOnClick(slideOutPart.certs[$index].id)'>X</button>
+                                        </div>
+                                </div>
+                                
+                        </div>
+
+                        <!-- Open Bom Button-->
+                        <div class='slideOutButtonContainer'>
+                                <button ng-click='openBomButtonOnClick()' ng-hide=" (slideOutPart.type =='ASSY'||slideOutPart.type =='SUB')==false ">BOM</button>
+                        </div>
+
+                        <!-- Build Pack Button-->
+                        <div class='buildPackContainer'>
+                                <button id='buildPackButton' ng-click='buildPackageButtonOnClick()' ng-show="activeBom.partNumber==slideOutPart.partNumber && bomOpen">Build Package</button>
+                                <div id='buildPackProgressBar'></div>
+                        </div>
+                        
+                        
+                        <!-- Open Drawing Buttons-->
+                        <div id='slideOutOpenDrawing'>
+                                <button ng-click='openCore()'      ng-disabled='!slideOutPart.file.core.exists'>Core</button>
+                                <button ng-click='openPack()'      ng-disabled='!slideOutPart.file.pack.exists'>Pack</button>
+                                <button ng-click='openRedline()'   ng-disabled='!slideOutPart.file.redline.exists'>Redline</button>
+                                <button ng-click='openFolder()'    ng-disabled='!slideOutPart.file.folder.exists'>Folder</button>
+                        </div>
+                        
+                        <input id='slideOutId' hidden>
+                        <input id='slideOutPart' hidden>
+                
+                </div>
+
+                <div id='scopePane' class='pane'>
+                        <div class='titleBar'>
+                                <div></div>
+                                <!--<button ng-click="closePartTableButtonOnClick()">X</button>-->
+                                <div>:</div>
+                        </div>
+                        <div id='scopeTableHeader'>
+                                
+                                <div class='scopeTableRow' id='scopeTableHeading'>
+                                        <div>File As</div>
+                                        <div>Display As</div>
+                                </div>
+                                <div class='scopeTableRow'>
+                                        <input type='text' id='scopeFileAsInput'>
+                                        <input type='text' id='scopeDisplayAsInput'>
+                                        <button class='rowButton' ng-click='addScopeButtonOnClick()'>+</button>
+                                </div>
+                        </div>
+                        <div id="scopeTableBody">
+                             <div class='scopeTableRow' ng-repeat="x in schemes track by $index">
+                                        <div>{{schemes[$index].scheme}}</div>
+                                        <div>{{schemes[$index].displayAs}}</div>
+                                        <button class="rowButton" ng-click="deleteScopeButtonOnClick(schemes[$index].id )">X</button>
+                                        
+                             </div>   
+                        </div>
+                </div>
+
+                <div id='settingsPane' class='pane'>
+                        <div id='slideOutHeader' class='titleBar'>
+                                <div></div>
+                                <button ng-click="closeSideBarButtonOnClick()" class='button'>X</button>
+                        </div>
+                        <div id='settingsForm'>
+                                <!-- Server-->
+                                <div class='slideOutFormInput'>
+                                        <div>Server</div>
+                                        <input v-model='database.server' type='text'>
+                                </div>
+                                <!-- Server Password-->
+                                <div class='slideOutFormInput'>
+                                        <div>Server Password</div>
+                                        <input v-model='database.password' type='password'>
+                                </div>
+                                <!-- Auto Number-->
+                                <div class='slideOutFormInput'>
+                                        <div>Auto Number</div>
+                                        <input v-model='config.autoNumber'  type='text'>
+                                </div>
+                                <!-- Root Folder-->
+                                <div class='slideOutFormInput'>
+                                        <div>Root Folder</div>
+                                        <input v-model='config.rootDir'  type='text'>
+                                </div>
+                                <!-- ACE Template Folder-->
+                                <div class='slideOutFormInput'>
+                                        <div>ACE Template Folder</div>
+                                        <input v-model='config.aceTemplateFolder' type='text'>
+                                </div>
+                                <button v-on:click="onBlur">Save</button>
+                                
+
+                                
+                    
+                        </div>
+                    
+                </div>
+
+              
+                <div id='promptBox'>
+                        <div id='prompBoxTitleBar'>Notes</div>
+                        <button ng-click='closePromptBox()' id='prompBoxClose'>X</button>
+                        <textarea ng-model="slideOutPart.notes" id='prompBoxBody'></textarea>
+                </div>
+           
+<script src="script.js"></script> 
+</body>
+</html>
