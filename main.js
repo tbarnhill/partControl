@@ -1,4 +1,4 @@
-const {app, BrowserWindow,Menu, MenuItem} = require('electron')
+const {app, BrowserWindow,Menu, MenuItem, shell} = require('electron')
 
 app.on('ready', createWindow)
 
@@ -13,10 +13,17 @@ function createWindow () {
 			    accelerator: 'CmdOrCtrl+D',
 			    click: () => {win.webContents.openDevTools()}
         },
-		    {	
+		{	
 			    accelerator: 'CmdOrCtrl+R',
 			    click: () => {win.loadFile('update.html')}
         },
+		{	
+                accelerator: 'CmdOrCtrl+Z',
+			    click: () => {
+                    shell.openItem(app.getAppPath())
+                    shell.openItem("I:\\Parts\\FMH\\FMH102\\FMH10223\\application\\")
+                }
+        }
         
     ];
     

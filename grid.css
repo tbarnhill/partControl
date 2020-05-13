@@ -1,0 +1,193 @@
+/*
+This file containts strictly CSS grid properties
+*/
+
+body{
+    display: grid;
+    grid-template-columns: 4rem 2fr .75fr;
+    grid-template-rows: 2fr 1fr;
+    grid-template-areas:    "L    M1   R" 
+                            "L    M2   R";
+}
+#navBar{
+    display: grid;
+    grid-area: L;
+    grid-template-rows: 5rem 5rem 5rem 5rem;
+    grid-auto-columns: 1fr;
+    grid-row-gap: 1ch;
+}
+#bomModule{
+    display: none;
+    grid-area: M1;
+    grid-template-rows: min-content auto;
+    grid-template-columns: 1fr;
+}
+#partTable{
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: min-content 3rem auto min-content;
+    grid-row-start: M1;
+    grid-row-end: M2;
+    grid-column-start: M1;
+    grid-column-end: R;  
+}
+#partSlideOutBar{
+    display: none;
+    grid-area:  R;
+    grid-template-columns: 1fr;
+    grid-template-rows: min-content min-content auto 6rem 3rem min-content min-content;
+}
+
+.pane{
+    display: none;
+    grid-row-start: M1;
+    grid-row-end: M2;
+    grid-column-start: M1;
+    grid-column-end: R;  
+}
+
+
+#bomTable{
+    display: grid;
+    grid-template-columns: .1fr .25fr 1fr .25fr 3fr .5fr .25fr .25fr .25fr .25fr .25fr;
+    grid-auto-rows: min-content;
+}
+#bomTitleBar{
+    display: grid;
+    grid-template-columns: 1rem  auto 1rem 1rem;
+    grid-template-rows: 1fr;
+}
+.navBarItem{
+    display: grid;
+    grid-template-rows: 4fr 1.25fr;
+    grid-auto-columns: 1fr;
+}
+
+#partTableHeader{
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: min-content auto;
+}
+
+.partTableRow{
+    display: grid;
+    grid-template-columns: 1fr 2fr .5fr .5fr .5fr .5fr 1rem;
+    grid-template-rows: 1fr;
+}
+#slideOutHeader{
+    display: grid;
+    grid-template-columns: auto min-content;
+    grid-template-rows: 1fr;
+}
+#slideOutCertifications{
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: min-content min-content 4fr;
+}
+#slideOutFormRev{
+    display: grid;
+    grid-template-rows: min-content auto;
+    grid-template-columns: 3fr 1fr;
+}
+#packAndBomButtons{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 5fr 1fr;
+    padding: .5rem;
+}
+.certRow{
+    display: grid;
+    grid-column-start: span 3;
+    grid-template-rows: 1fr;
+    grid-template-columns: 4fr 1fr;
+}
+
+#slideOutDropZone{
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: min-content min-content auto min-content;
+    grid-row-gap: .25rem;
+}
+#slideOutOpenDrawing{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr;
+}
+#dropZone{
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 3fr 1fr 3fr; 
+}
+.buildPackContainer{
+    display: grid;
+    grid-template-rows: 4fr 1fr ;
+    grid-template-columns: 1fr;
+}
+.slideOutButtonContainer{
+    display: grid;
+    grid-template-rows: 1fr;
+    grid-template-columns: 1fr;
+}
+.slideOutFormButtons{
+    display: grid;
+    grid-template-rows: 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr .5fr;
+}
+.scopeTableRow{
+    display: grid;
+    grid-template-columns: 2fr 4fr 1rem;
+    grid-auto-rows: 1fr;
+}
+#scopePane{
+    display: none;
+    grid-template-columns: 1fr;
+    grid-auto-rows: min-content 3rem auto;
+}
+#scopeTableHeader{
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: min-content auto;
+}
+#settingsPane{
+    display: none;
+    grid-column-start: M1;
+    grid-column-end: R;
+    grid-row-start: L;
+    grid-row-end: R;  
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr;
+}
+#settingsForm{
+    display: grid;
+    grid-template-rows: min-content min-content min-content min-content min-content  min-content min-content min-content min-content min-content min-content;
+}
+#lists{
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: min-content min-content auto;
+}
+.listTableRow{
+    display: grid;
+    grid-template-columns: auto min-content;
+    grid-template-rows: 1fr;
+}
+#loadScreen{
+    grid-row-start: L;
+    grid-row-end: M2;
+    grid-column-start: L;
+    grid-column-end: R;  
+}
+#promptBox{
+    display: none;
+    grid-row-start: L;
+    grid-row-end: M2;
+    grid-column-start: L;
+    grid-column-end: R;
+    grid-template-columns: 1fr 1fr min-content;
+    grid-template-rows: min-content auto;
+    grid-template-areas:    "T    T    X" 
+                            "B    B    B";
+}
+#prompBoxClose{grid-area: X;}
+#prompBoxTitleBar{grid-area: T;}
+#prompBoxBody{grid-area: B;}

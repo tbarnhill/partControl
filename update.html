@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Updateing</title>
+    <title>Updating</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" href="style.css" />
 </head>
-<body>
+<body id="body">
     <script>
 
 let fs = require('fs-extra')
@@ -13,60 +13,41 @@ update(()=>{
     window.location.href = 'index.html'
 
 })
-function update(callback){
-    fs.copy("I:\\Parts\\FMH\\FMH102\\FMH10223\\application\\script.js","resources\\app\\script.js",(err)=>{
-        if(err){console.log(err)}
-        else{console.log('updated script.js')}
-        responseRecived()
-    })
-    fs.copy("I:\\Parts\\FMH\\FMH102\\FMH10223\\application\\vue.js","resources\\app\\vue.js",(err)=>{
-        if(err){console.log(err)}
-        else{console.log('updated vue.js')}
-        responseRecived()
-    })
-    fs.copy("I:\\Parts\\FMH\\FMH102\\FMH10223\\application\\index.html","resources\\app\\index.html",(err)=>{
-        if(err){console.log(err)}
-        else{console.log('updated index.html')}
-        responseRecived()
-    })
-    fs.copy("I:\\Parts\\FMH\\FMH102\\FMH10223\\application\\style.css","resources\\app\\style.css",(err)=>{
-        if(err){console.log(err)}
-        else{console.log('updated style.css')}
-        responseRecived()
-    })
-    fs.copy("I:\\Parts\\FMH\\FMH102\\FMH10223\\application\\main.js","resources\\app\\main.js",(err)=>{
-        if(err){console.log(err)}
-        else{console.log('updated main.js')}
-        responseRecived()
-    })
-    fs.copy("I:\\Parts\\FMH\\FMH102\\FMH10223\\application\\package.json","resources\\app\\package.json",(err)=>{
-        if(err){console.log(err)}
-        else{console.log('updated package.json')}
-        responseRecived()
-    })
-    fs.copy("I:\\Parts\\FMH\\FMH102\\FMH10223\\icons","resources\\app\\icons",(err)=>{
-        if(err){console.log(err)}
-        else{console.log('updated icons')}
-        responseRecived()
-    })
-    fs.copy("I:\\Parts\\FMH\\FMH102\\FMH10223\\application\\update.html","resources\\app\\update.html",(err)=>{
-        if(err){console.log(err)}
-        else{console.log('updated update.html')}
-        responseRecived()
-    })
- 
-    //** Count 8 responses before firing callback */
-    let responsesRecived = 0
-    function responseRecived(){
-        responsesRecived =  responsesRecived+1
-        if(responsesRecived==8){
-            console.log('all file exists res recived')
-           if(callback){callback()}
-        }
+
+
+
+async function update(callback){
+
+    let sourcePath =   "I:\\Parts\\FMH\\FMH102\\FMH10223\\application\\"
+    let appPath    =   "resources\\app\\"
+   
+    let iDriveMapped = await fs.exists(sourcePath)
+
+
+    if(!iDriveMapped){
+        console.log("I drive is not connected. Attempting to use Z drive")
+        sourcePath = "Z:\\Shared\\FMH\\Engineering\\Parts\\FMH\\FMH102\\FMH10223\\application\\"
     }
- 
+
+    let files = await fs.readdir(sourcePath)
+    
+    let err = false
+    for(let i=0;i<files.length;i++){
+        let file = files[i]
+
+        if(file=="node_modules"){ continue }
+        console.log(" *****copy "+file+" *****")
+        console.log("from: "+ sourcePath+file)
+        console.log("to: "+appPath+file)
+        console.log('')
+        let e = await fs.copy(sourcePath+file,appPath+file)
+        if(e){console.log(e)}
+    }
+  callback()
 }
-  
+
+
+
     </script>
 </body>
 </html>

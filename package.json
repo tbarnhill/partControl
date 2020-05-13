@@ -1,21 +1,34 @@
 {
-    "name": "part-control",
-    "version": "0.0.1",
-    "main": "main.js",
-    "scripts": {
-        "start": "node ."
-    },
-    "dependencies": {
-        "easy-pdf-merge": "^0.2.2",
-        "electron-installer-windows": "^2.0.0",
-        "electron-updater": "^4.2.0",
-        "fs-extra": "^7.0.1",
-        "html-pdf": "^2.2.0",
-        "mssql": "^4.3.7",
-        "pdf-merge": "^1.2.0",
-        "pdfkit": "^0.10.0",
-        "simple-node-logger": "^18.12.23",
-        "username": "^5.1.0"
-    },
-    "devDependencies": {}
+  "name": "part-control",
+  "version": "0.0.1",
+  "main": "main.js",
+  "description": "Part Control",
+  "scripts": {
+    "start": "node ."
+  },
+  "dependencies": {
+    "easy-pdf-merge": "^0.2.2",
+    "electron-context-menu": "^0.16.0",
+    "electron-updater": "^4.2.0",
+    "fs-extra": "^7.0.1",
+    "html-pdf": "^2.2.0",
+    "mssql": "^4.3.7",
+    "part-control-database": "^1.0.0",
+    "pdf-merge": "^1.2.0",
+    "pdfkit": "^0.10.0",
+    "run-sequel": "^1.0.4",
+    "simple-node-logger": "^18.12.23",
+    "username": "^5.1.0"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tbarnhill/partControl.git"
+  },
+  "author": "Tyler Barnhill",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tbarnhill/partControl/issues"
+  },
+  "homepage": "https://github.com/tbarnhill/partControl#readme"
 }
