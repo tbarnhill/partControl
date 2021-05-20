@@ -11,7 +11,7 @@
     "electron-context-menu": "^0.16.0",
     "electron-updater": "^4.2.0",
     "fs-extra": "^7.0.1",
-    "html-pdf": "^2.2.0",
+    "html-pdf": "^3.0.1",
     "mssql": "^4.3.7",
     "part-control-database": "^1.0.0",
     "pdf-merge": "^1.2.0",
